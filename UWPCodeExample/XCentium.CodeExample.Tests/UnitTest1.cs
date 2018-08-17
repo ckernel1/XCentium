@@ -31,20 +31,20 @@ namespace XCentium.CodeExample.Tests
 
             //InputType inputType = ComponentFactory.DetectInputType(textBox.Text);
             //IProgressIndicator progress = ComponentFactory.CreateProgressBar(inputType, progressBar);
-            IEnumerable<string> terms = new UriExtractor(new Uri("http://google.com"), new ProgressBar(), @"C:\Users\russell.lambright\Desktop");
+            var document = new UriExtractor(new Uri("http://google.com"), new ProgressBar(), @"C:\Users\russell.lambright\Desktop");
             IWordStemmer stemmer = ComponentFactory.CreateWordStemmer(false);
 
-            IEnumerable<IWord> words = terms
+            var words = document
                 .Filter(blacklist)
                 //.Filter(customBlacklist)
-                .CountOccurences().ToList();
+                .CountOccurences()
+                .GroupByStem(stemmer)
+                .SortByOccurences()
+                .ToList(); // Force execution
 
-            var end =
-                words
-                    .GroupByStem(stemmer)
-                    .SortByOccurences()
-                    .ToList();
-                    //.Cast<IWord>();
+           
+            var images = document.GetImages();
+                
         }
 
         internal static class ComponentFactory
