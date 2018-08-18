@@ -4,7 +4,8 @@
     {
         private static readonly string[] s_TopCommonWords =
             new[]
-            {"about",
+            {"a",
+            "about",
             "after",
             "again",
             "air",

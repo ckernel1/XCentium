@@ -9,6 +9,10 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <CheckBox Content="Ignore Common Words" HorizontalAlignment="Left" Margin="333,520,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <TextBox HorizontalAlignment="Left" Margin="517,199,0,0" Text="TextBox" VerticalAlignment="Top" Width="584"/>
+        <FlipView HorizontalAlignment="Left" Margin="690,403,0,0" VerticalAlignment="Top" Width="571"/>
+        <Button x:Name="btn_Go" Content="Go" HorizontalAlignment="Left" Margin="326,348,0,0" VerticalAlignment="Top" Click="btn_Go_Click"/>
 
     </Grid>
 </Page>

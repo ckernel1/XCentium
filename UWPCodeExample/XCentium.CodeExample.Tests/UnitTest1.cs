@@ -1,6 +1,8 @@
+using OpenQA.Selenium.Firefox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using XCentium.CodeExample.Libraries.WordCollector;
 using XCentium.CodeExample.Libraries.WordCollector.Blacklist;
 using XCentium.CodeExample.Libraries.WordCollector.Blacklist.En;
@@ -18,32 +20,43 @@ namespace XCentium.CodeExample.Tests
         [Fact]
         public void Test1()
         {
-            UriExtractor x = new UriExtractor(new Uri("http://google.com"),new ProgressBar(), @"C:\Users\russell.lambright\Desktop" );
+            using (UriExtractor x = new UriExtractor(new ProgressBarStatus(), new FirefoxDriver(@"C:\Users\russell.lambright\Desktop")) {URI= new Uri("http://google.com") } )
+            {
 
-            var test = x.GetImages();
-            var test2 = x.GetWords();
+                var test = x.GetImages();
+                var test2 = x.GetWords();
+            }
         }
         [Fact]
         public void FullTest()
         {
-            IBlacklist blacklist = ComponentFactory.CreateBlacklist(false);
+            IBlacklist blacklist = ComponentFactory.CreateBlacklist(true);
             //IBlacklist customBlacklist = CommonBlacklist.CreateFromTextFile(s_BlacklistTxtFileName);
 
             //InputType inputType = ComponentFactory.DetectInputType(textBox.Text);
             //IProgressIndicator progress = ComponentFactory.CreateProgressBar(inputType, progressBar);
-            var document = new UriExtractor(new Uri("http://google.com"), new ProgressBar(), @"C:\Users\russell.lambright\Desktop");
-            IWordStemmer stemmer = ComponentFactory.CreateWordStemmer(false);
+            using (var document = new UriExtractor(new ProgressBarStatus(), new FirefoxDriver(@"C:\Users\russell.lambright\Desktop")) { URI = new Uri("http://cnn.com") })
+            {
+                IWordStemmer stemmer = ComponentFactory.CreateWordStemmer(false);
 
-            var words = document
-                .Filter(blacklist)
-                //.Filter(customBlacklist)
-                .CountOccurences()
-                .GroupByStem(stemmer)
-                .SortByOccurences()
-                .ToList(); // Force execution
+                var words = document//.AsParallel()
+                    .Filter(blacklist)
+                    //.Filter(customBlacklist)
+                    .CountOccurences()                    
+                    .GroupByStem(stemmer)
+                    .SortByOccurences();
 
-           
-            var images = document.GetImages();
+               
+               
+                    var topWords = words.Take(10).ToList();
+                    var sum = words.Sum(w => w.Occurrences);
+                    
+
+                
+                
+                var images = document.GetImages();
+               
+            }
                 
         }
 

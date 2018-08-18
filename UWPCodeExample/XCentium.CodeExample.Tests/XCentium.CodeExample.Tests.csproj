@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Libraries\XCentium.CodeExample.Libraries.WordCollector\XCentium.CodeExample.Libraries.WordCollector.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ignorelist.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

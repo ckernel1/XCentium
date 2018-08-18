@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿
+using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using System;
 using System.Collections.Generic;
@@ -9,24 +10,23 @@ using System.Text;
 
 namespace XCentium.CodeExample.Libraries.WordCollector.Extractors
 {
-    public class UriExtractor : FileExtractor
+    public class UriExtractor : FileExtractor,IDisposable
     {
-        private readonly Uri m_Uri;
         
-        private string _driverLocation = @".\Drivers";
-        public UriExtractor(Uri uri, IProgressIndicator progressIndicator, string driverLocation=null)
+        private IWebDriver _webDriver;
+        public UriExtractor( IProgressIndicator progressIndicator, IWebDriver webDriver, string driverLocation=null)
             : base(null, progressIndicator)
         {
-            _driverLocation = string.IsNullOrWhiteSpace(driverLocation) ? _driverLocation : driverLocation;
-            m_Uri = uri;
+            
+            _webDriver = webDriver;
         }
 
+        public Uri URI { get; set; }
         public override IEnumerable<string> GetWords()
         {
-            using (var webDriver = new FirefoxDriver(_driverLocation))
-            {
-                webDriver.Url = m_Uri.ToString();
-                var body = webDriver.FindElementByTagName("body");
+           
+                _webDriver.Url = URI.ToString();
+                var body = _webDriver.FindElement(By.TagName("body"));
 
                 var words = body.Text.Split(new string[] { " ", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -37,28 +37,32 @@ namespace XCentium.CodeExample.Libraries.WordCollector.Extractors
                     ProgressIndicator.Increment(1);
                     yield return word;
                 }
-            }
+            
 
         }
 
         public IEnumerable<Tuple<string, string>> GetImages()
         {
-            using (var webDriver = new FirefoxDriver(_driverLocation))
-            {
-                webDriver.Url = m_Uri.ToString();
-                var images = webDriver.FindElementsByTagName("img");
+            
+               _webDriver.Url = URI.ToString();
+                var images = _webDriver.FindElements(By.TagName("img"));
                 List<Tuple<string, string>> results = new List<Tuple<string, string>>();
 
                 ProgressIndicator.Reset();
                 ProgressIndicator.Maximum = images.Count;
-                images.ToList().ForEach(i =>
+                foreach(var image in images)
                 {
                     ProgressIndicator.Increment(1);
-                    results.Add(Tuple.Create(i.GetAttribute("src"), i.GetAttribute("alt") ?? string.Empty));
-                });
+                    results.Add(Tuple.Create(image.GetAttribute("src"), image.GetAttribute("alt") ?? string.Empty));
+                };
                 return results;
-            }
             
+            
+        }
+
+        public void Dispose()
+        {
+            _webDriver?.Dispose();
         }
     }
 }

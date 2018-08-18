@@ -5,11 +5,11 @@ using XCentium.CodeExample.Libraries.WordCollector.Extractors;
 
 namespace XCentium.CodeExample.Libraries.WordCollector.TextAnalyses
 {
-    public class ProgressBar : IProgressIndicator
+    public class ProgressBarStatus : IProgressIndicator
     {
         
 
-        public ProgressBar()
+        public ProgressBarStatus()
         {
             
         }
