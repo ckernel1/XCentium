@@ -63,6 +63,12 @@
     <Compile Include="ViewerForm.Designer.cs">
       <DependentUpon>ViewerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WaitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WaitForm.designer.cs">
+      <DependentUpon>WaitForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -78,6 +84,9 @@
     </Compile>
     <EmbeddedResource Include="ViewerForm.resx">
       <DependentUpon>ViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WaitForm.resx">
+      <DependentUpon>WaitForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
