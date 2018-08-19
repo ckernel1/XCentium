@@ -26,10 +26,11 @@ namespace XCentium.CodeExample.UI
 
     public partial class Form1 : Form
     {
+
         private BindingSource topWordsBindingSource = new BindingSource();
-        IBlacklist blacklist = Factory.CreateBlacklist(true);
+        
         IBlacklist customIgnorelist = CommonBlacklist.CreateFromTextFile(Properties.Resources.IgnoreList);
-        IWordStemmer stemmer = Factory.CreateWordStemmer(false);
+        
         IPassiveWebDriver<FirefoxDriver> webDriver = new PassiveWebDriver<FirefoxDriver>();
         IProgressIndicator progressIndicator = new ProgressBarStatus();
         delegate object ThreadedAPICall();
@@ -39,22 +40,29 @@ namespace XCentium.CodeExample.UI
 
         private void btn_Go_Click(object sender, EventArgs e)
         {
-            Task task;
+            IWordStemmer stemmer = Factory.CreateWordStemmer(cb_grouping.Checked);
+            IBlacklist blacklist = Factory.CreateBlacklist(cb_ignoreCommonwords.Checked);
             DoWait(() =>
             {
-                task = Task.Run(() =>
+                var task = Task.Run(() =>
                 {
                     using (var document = new UriExtractor(progressIndicator, webDriver.GetWebDriver()) { URI = new Uri(Normalize(txt_URL.Text)) })
                     {
+                        document.SearchTags.Clear();
+                        document.SearchTags.AddRange( CustomSettings.SearchTagNames);
+                        document.ExcludeSymbolsRegEx = CustomSettings.RegExExcludeSymbols;
+
                         var words = document
                             .Filter(blacklist)
                             .Filter(customIgnorelist)
+                            .OrderBy(w => w) // Sort alpabetically
                             .CountOccurences()
                             .GroupByStem(stemmer)
-                            .SortByOccurences();
+                            .SortByOccurences(); // Sort by occurences
+                            
 
                         // Compute top n words.
-                        var topWords = words.Take(10).ToList();
+                        var topWords = words.Take(CustomSettings.TopNumberOfWords).ToList();
                         var sum = words.Sum(w => w.Occurrences);
 
                         DoLocal(() =>
@@ -68,27 +76,28 @@ namespace XCentium.CodeExample.UI
                             ClearImageList();
                         });
 
-
-
                         var images = document.GetImages();
                         foreach (var image in images)
                         {
-                            DoLocal(() => imagesFromCurrentSite.Images.Add(image.Item1, GetImage(image.Item1)));
+                            var imageObj = GetImage(image.Item1);
+                            if (imageObj == null)
+                                continue;
+                            DoLocal(() => imagesFromCurrentSite.Images.Add(image.Item1, imageObj));
                             DoLocal(() => lv_images.Items.Add(new ListViewItem(image.Item2, image.Item1)));
                         }
                     }
                 });
+
+                // Set callback to check for any errors during execution
                 task.GetAwaiter().OnCompleted(() =>
                 {
                     if (task.Exception != null)
-                        MessageBox.Show($"Sorry the following error occured while trying to execute your last request:\r\n {GetErrorMessage(task.Exception)}");
+                       DoLocal(()=>MessageBox.Show(this,$"Sorry the following error occured while trying to execute your last request:\r\n {GetErrorMessage(task.Exception)}"),true);
                 });
+                // Wait until the task is done so the progress bar doesn't go away. 
+
                 task.Wait();
             });
-            
-
-            // Set callback to check for any errors during execution
-            
             
         }
 
@@ -136,10 +145,15 @@ namespace XCentium.CodeExample.UI
         /// <returns></returns>
         private Image GetImage(string webPath)
         {
+            if (string.IsNullOrWhiteSpace(webPath))
+                return null;
+
             using (var wc = new WebClient())
             {
                 using (var imgStream = new MemoryStream(wc.DownloadData(webPath)))
                 {
+                    if (imgStream.Length <= 1)
+                        return null; // invalid image
                     using (Bitmap bitmap = new Bitmap(imgStream))
                     {
                         return new Bitmap(bitmap);
@@ -172,10 +186,10 @@ namespace XCentium.CodeExample.UI
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>
-        private object DoLocal(Action func)
+        private object DoLocal(Action func,bool startFromSeperateThread=false)
         {
 
-            return Invoke(func);
+            return startFromSeperateThread?Task.Run(()=>Invoke(func)): Invoke(func);
 
         }
         private void DoWait<T>(Func<T> func) where T : class

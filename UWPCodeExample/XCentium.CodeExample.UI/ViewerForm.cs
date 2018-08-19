@@ -12,7 +12,7 @@ namespace XCentium.CodeExample.UI
 {
     public partial class ViewerForm : Form
     {
-        private const int offset = 85;
+        private const int offset = 90;
         internal Image CurrentImage { set { pb_image.Image = value; Width = value.Width + offset;Height = value.Height + offset; } }
         internal string Title { set { this.Text = value; } }
         public ViewerForm()
