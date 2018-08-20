@@ -71,7 +71,7 @@ namespace XCentium.CodeExample.UI
             this.txt_URL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_URL.Location = new System.Drawing.Point(3, 16);
             this.txt_URL.Name = "txt_URL";
-            this.txt_URL.Size = new System.Drawing.Size(558, 20);
+            this.txt_URL.Size = new System.Drawing.Size(427, 20);
             this.txt_URL.TabIndex = 1;
             this.txt_URL.Text = "http://google.com";
             // 
@@ -81,7 +81,7 @@ namespace XCentium.CodeExample.UI
             this.btn_Go.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btn_Go.Location = new System.Drawing.Point(3, 45);
             this.btn_Go.Name = "btn_Go";
-            this.btn_Go.Size = new System.Drawing.Size(558, 23);
+            this.btn_Go.Size = new System.Drawing.Size(427, 23);
             this.btn_Go.TabIndex = 2;
             this.btn_Go.Text = "Go";
             this.btn_Go.UseVisualStyleBackColor = true;
@@ -90,22 +90,25 @@ namespace XCentium.CodeExample.UI
             // dgv_TopWords
             // 
             this.dgv_TopWords.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_TopWords.BackgroundColor = System.Drawing.Color.Gray;
             this.dgv_TopWords.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_TopWords.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_TopWords.Location = new System.Drawing.Point(0, 0);
             this.dgv_TopWords.Name = "dgv_TopWords";
-            this.dgv_TopWords.Size = new System.Drawing.Size(722, 568);
+            this.dgv_TopWords.Size = new System.Drawing.Size(591, 568);
             this.dgv_TopWords.TabIndex = 3;
             // 
             // lv_images
             // 
             this.lv_images.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lv_images.BackColor = System.Drawing.Color.DimGray;
             this.lv_images.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lv_images.ForeColor = System.Drawing.Color.Linen;
             this.lv_images.LargeImageList = this.imagesFromCurrentSite;
-            this.lv_images.Location = new System.Drawing.Point(722, 0);
+            this.lv_images.Location = new System.Drawing.Point(591, 0);
             this.lv_images.Name = "lv_images";
             this.lv_images.ShowItemToolTips = true;
-            this.lv_images.Size = new System.Drawing.Size(612, 692);
+            this.lv_images.Size = new System.Drawing.Size(743, 692);
             this.lv_images.SmallImageList = this.imagesFromCurrentSite;
             this.lv_images.TabIndex = 4;
             this.lv_images.UseCompatibleStateImageBehavior = false;
@@ -114,18 +117,19 @@ namespace XCentium.CodeExample.UI
             // imagesFromCurrentSite
             // 
             this.imagesFromCurrentSite.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imagesFromCurrentSite.ImageSize = new System.Drawing.Size(64, 64);
+            this.imagesFromCurrentSite.ImageSize = new System.Drawing.Size(128, 128);
             this.imagesFromCurrentSite.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // bb_request
             // 
+            this.bb_request.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.bb_request.Controls.Add(this.txt_URL);
             this.bb_request.Controls.Add(this.btn_Go);
             this.bb_request.Controls.Add(this.groupBox1);
             this.bb_request.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.bb_request.Location = new System.Drawing.Point(0, 621);
             this.bb_request.Name = "bb_request";
-            this.bb_request.Size = new System.Drawing.Size(722, 71);
+            this.bb_request.Size = new System.Drawing.Size(591, 71);
             this.bb_request.TabIndex = 5;
             this.bb_request.TabStop = false;
             this.bb_request.Text = "Request";
@@ -148,7 +152,7 @@ namespace XCentium.CodeExample.UI
             this.groupBox1.Controls.Add(this.cb_grouping);
             this.groupBox1.Controls.Add(this.cb_ignoreCommonwords);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBox1.Location = new System.Drawing.Point(561, 16);
+            this.groupBox1.Location = new System.Drawing.Point(430, 16);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(158, 52);
             this.groupBox1.TabIndex = 4;
@@ -157,12 +161,13 @@ namespace XCentium.CodeExample.UI
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.ll_wordCount);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox2.Location = new System.Drawing.Point(0, 568);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(722, 53);
+            this.groupBox2.Size = new System.Drawing.Size(591, 53);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Web Page Info";
