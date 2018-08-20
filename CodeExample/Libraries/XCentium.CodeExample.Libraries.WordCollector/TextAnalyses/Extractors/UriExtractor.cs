@@ -20,6 +20,7 @@ namespace XCentium.CodeExample.Libraries.WordCollector.Extractors
         public UriExtractor( IProgressIndicator progressIndicator, IWebDriver webDriver, string driverLocation=null)
             : base(null, progressIndicator)
         {
+            // Set Defaults
             SearchTags = new List<string>(new string[] {"body" });
             _webDriver = webDriver;
             ExcludeSymbolsRegEx = "[&,.?!:;#\"\r\n]";
@@ -38,6 +39,7 @@ namespace XCentium.CodeExample.Libraries.WordCollector.Extractors
 
                 foreach (IWebElement element in elements)
                 {
+                    // Going to look at content attributes, value attributes and inner text for words. 
                     var analyzeThis = string.Concat(element.GetAttribute("content")," " , element.GetAttribute("value")," " , element.Text);
                     words.AddRange(Regex
                     .Replace(analyzeThis, ExcludeSymbolsRegEx, " ")?

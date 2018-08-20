@@ -53,6 +53,7 @@ namespace XCentium.CodeExample.UI
             IWordStemmer stemmer = Factory.CreateWordStemmer(cb_grouping.Checked); 
             IBlacklist blacklist = Factory.CreateBlacklist(cb_ignoreCommonwords.Checked);
 
+            // Perform in another thread to keep the UI active and display animation to the user. 
             DoWait(() =>
             {
                 var task = Task.Run(() =>
@@ -76,9 +77,6 @@ namespace XCentium.CodeExample.UI
                         // Compute top n words.
                         var topWords = _lastGroupOfWords.Take(CustomSettings.TopNumberOfWords);
                         
-
-
-
                         SetWordList(topWords);
                         DoLocal(() => ClearImageList());
                         var images = document.GetImages();
@@ -105,8 +103,8 @@ namespace XCentium.CodeExample.UI
                         DoLocal(() => txt_URL.BackColor = Color.Green);
                     }
                 });
-                // Wait until the task is done so the progress bar doesn't go away. 
 
+                // Wait until the task is done so the progress bar doesn't go away. 
                 task.Wait();
             });
             
