@@ -5,8 +5,8 @@ using System.Text;
 
 namespace XCentium.CodeExample.Libraries.WordCollector
 {
-    public interface IPassiveWebDriver<T> where T:class,IWebDriver
+    public interface IPassiveWebDriver
     {
-        T GetWebDriver();
+        IWebDriver GetWebDriver();
     }
 }

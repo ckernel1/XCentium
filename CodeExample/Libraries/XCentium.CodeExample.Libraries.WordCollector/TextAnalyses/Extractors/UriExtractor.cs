@@ -14,7 +14,7 @@ namespace XCentium.CodeExample.Libraries.WordCollector.Extractors
     public class UriExtractor : FileExtractor,IDisposable
     {
         
-        public List<string> SearchTags { get; private set; }
+        public List<string> SearchTags { get; set; }
         public string ExcludeSymbolsRegEx { get; set; } 
         private IWebDriver _webDriver;
         public UriExtractor( IProgressIndicator progressIndicator, IWebDriver webDriver, string driverLocation=null)
@@ -28,7 +28,7 @@ namespace XCentium.CodeExample.Libraries.WordCollector.Extractors
         public Uri URI { get; set; }
         public override IEnumerable<string> GetWords()
         {
-
+            //_webDriver.Navigate().GoToUrl(URI.ToString());
             _webDriver.Url = URI.ToString();
             List<string> words = new List<string>();
 
@@ -75,7 +75,7 @@ namespace XCentium.CodeExample.Libraries.WordCollector.Extractors
                 }
                 catch (StaleElementReferenceException) { Console.WriteLine($"An image was removed from the page or its url changed before it gould be loaded in the collection."); }// Skipping this exception as it referes to an element that is no longer present.
             }
-            return results;
+            return results?.Where(i=>!string.IsNullOrWhiteSpace(i.Item1));
 
 
         }
