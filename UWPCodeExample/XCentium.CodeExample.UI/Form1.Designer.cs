@@ -67,6 +67,7 @@ namespace XCentium.CodeExample.UI
             // 
             // txt_URL
             // 
+            this.txt_URL.BackColor = System.Drawing.Color.YellowGreen;
             this.txt_URL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_URL.Location = new System.Drawing.Point(3, 16);
             this.txt_URL.Name = "txt_URL";

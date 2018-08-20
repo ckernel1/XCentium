@@ -87,7 +87,13 @@ namespace XCentium.CodeExample.UI
                 task.GetAwaiter().OnCompleted(() =>
                 {
                     if (task.Exception != null)
-                       DoLocal(()=>MessageBox.Show(this,$"Sorry the following error occured while trying to execute your last request:\r\n {GetErrorMessage(task.Exception)}"),true);
+                    {
+                        DoLocal(() => MessageBox.Show(this, $"Sorry the following error occured while trying to execute your last request:\r\n {GetErrorMessage(task.Exception)}"), true);
+                        DoLocal(() => txt_URL.BackColor = Color.Red);
+                    }else
+                    {
+                        DoLocal(() => txt_URL.BackColor = Color.Green);
+                    }
                 });
                 // Wait until the task is done so the progress bar doesn't go away. 
 
