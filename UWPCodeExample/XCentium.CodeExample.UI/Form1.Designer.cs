@@ -44,16 +44,21 @@ namespace XCentium.CodeExample.UI
             this.bb_request = new System.Windows.Forms.GroupBox();
             this.cb_ignoreCommonwords = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ll_wordCount = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_TopWords)).BeginInit();
             this.bb_request.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // cb_grouping
             // 
             this.cb_grouping.AutoSize = true;
             this.cb_grouping.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.cb_grouping.Location = new System.Drawing.Point(3, 73);
+            this.cb_grouping.Location = new System.Drawing.Point(3, 15);
             this.cb_grouping.Name = "cb_grouping";
             this.cb_grouping.Size = new System.Drawing.Size(194, 17);
             this.cb_grouping.TabIndex = 0;
@@ -73,7 +78,7 @@ namespace XCentium.CodeExample.UI
             // 
             this.btn_Go.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btn_Go.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btn_Go.Location = new System.Drawing.Point(3, 103);
+            this.btn_Go.Location = new System.Drawing.Point(3, 45);
             this.btn_Go.Name = "btn_Go";
             this.btn_Go.Size = new System.Drawing.Size(516, 23);
             this.btn_Go.TabIndex = 2;
@@ -88,15 +93,17 @@ namespace XCentium.CodeExample.UI
             this.dgv_TopWords.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_TopWords.Location = new System.Drawing.Point(0, 0);
             this.dgv_TopWords.Name = "dgv_TopWords";
-            this.dgv_TopWords.Size = new System.Drawing.Size(722, 563);
+            this.dgv_TopWords.Size = new System.Drawing.Size(722, 544);
             this.dgv_TopWords.TabIndex = 3;
             // 
             // lv_images
             // 
+            this.lv_images.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.lv_images.Dock = System.Windows.Forms.DockStyle.Right;
             this.lv_images.LargeImageList = this.imagesFromCurrentSite;
             this.lv_images.Location = new System.Drawing.Point(722, 0);
             this.lv_images.Name = "lv_images";
+            this.lv_images.ShowItemToolTips = true;
             this.lv_images.Size = new System.Drawing.Size(612, 692);
             this.lv_images.SmallImageList = this.imagesFromCurrentSite;
             this.lv_images.TabIndex = 4;
@@ -115,9 +122,9 @@ namespace XCentium.CodeExample.UI
             this.bb_request.Controls.Add(this.btn_Go);
             this.bb_request.Controls.Add(this.groupBox1);
             this.bb_request.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.bb_request.Location = new System.Drawing.Point(0, 563);
+            this.bb_request.Location = new System.Drawing.Point(0, 621);
             this.bb_request.Name = "bb_request";
-            this.bb_request.Size = new System.Drawing.Size(722, 129);
+            this.bb_request.Size = new System.Drawing.Size(722, 71);
             this.bb_request.TabIndex = 5;
             this.bb_request.TabStop = false;
             this.bb_request.Text = "Request";
@@ -128,7 +135,7 @@ namespace XCentium.CodeExample.UI
             this.cb_ignoreCommonwords.Checked = true;
             this.cb_ignoreCommonwords.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_ignoreCommonwords.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.cb_ignoreCommonwords.Location = new System.Drawing.Point(3, 90);
+            this.cb_ignoreCommonwords.Location = new System.Drawing.Point(3, 32);
             this.cb_ignoreCommonwords.Name = "cb_ignoreCommonwords";
             this.cb_ignoreCommonwords.Size = new System.Drawing.Size(194, 17);
             this.cb_ignoreCommonwords.TabIndex = 3;
@@ -142,10 +149,48 @@ namespace XCentium.CodeExample.UI
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox1.Location = new System.Drawing.Point(519, 16);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 110);
+            this.groupBox1.Size = new System.Drawing.Size(200, 52);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.ll_wordCount);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox2.Location = new System.Drawing.Point(0, 544);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(722, 77);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Web Page Info";
+            // 
+            // ll_wordCount
+            // 
+            this.ll_wordCount.AutoSize = true;
+            this.ll_wordCount.Location = new System.Drawing.Point(99, 20);
+            this.ll_wordCount.Name = "ll_wordCount";
+            this.ll_wordCount.Size = new System.Drawing.Size(48, 13);
+            this.ll_wordCount.TabIndex = 0;
+            this.ll_wordCount.TabStop = true;
+            this.ll_wordCount.Text = "<Empty>";
+            this.toolTip1.SetToolTip(this.ll_wordCount, "Click to toggle between full word list and top word list.");
+            this.ll_wordCount.Click += new System.EventHandler(this.ll_wordCount_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Total word count:";
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.Tag = "";
+            this.toolTip1.ToolTipTitle = "Toggle";
             // 
             // Form1
             // 
@@ -154,15 +199,18 @@ namespace XCentium.CodeExample.UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1334, 692);
             this.Controls.Add(this.dgv_TopWords);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.bb_request);
             this.Controls.Add(this.lv_images);
             this.Name = "Form1";
-            this.Text = "XCentium Web Scrapper";
+            this.Text = "XCentium WebSite Analyzer";
             ((System.ComponentModel.ISupportInitialize)(this.dgv_TopWords)).EndInit();
             this.bb_request.ResumeLayout(false);
             this.bb_request.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -178,6 +226,10 @@ namespace XCentium.CodeExample.UI
         private GroupBox bb_request;
         private GroupBox groupBox1;
         private CheckBox cb_ignoreCommonwords;
+        private GroupBox groupBox2;
+        private Label label1;
+        private LinkLabel ll_wordCount;
+        private ToolTip toolTip1;
     }
 }
 

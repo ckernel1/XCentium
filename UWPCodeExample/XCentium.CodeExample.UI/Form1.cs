@@ -35,6 +35,7 @@ namespace XCentium.CodeExample.UI
         IProgressIndicator progressIndicator = new ProgressBarStatus();
         delegate object ThreadedAPICall();
         delegate void LocalizedUIOperation();
+        List<WordGroup> _lastGroupOfWords;
         public Form1() => InitializeComponent();
         
 
@@ -49,33 +50,27 @@ namespace XCentium.CodeExample.UI
                     using (var document = new UriExtractor(progressIndicator, webDriver.GetWebDriver()) { URI = new Uri(Normalize(txt_URL.Text)) })
                     {
                         document.SearchTags.Clear();
-                        document.SearchTags.AddRange( CustomSettings.SearchTagNames);
+                        document.SearchTags.AddRange(CustomSettings.SearchTagNames);
                         document.ExcludeSymbolsRegEx = CustomSettings.RegExExcludeSymbols;
 
-                        var words = document
+                        _lastGroupOfWords = document
                             .Filter(blacklist)
                             .Filter(customIgnorelist)
                             .OrderBy(w => w) // Sort alpabetically
                             .CountOccurences()
                             .GroupByStem(stemmer)
-                            .SortByOccurences(); // Sort by occurences
-                            
+                            .SortByOccurences()// Sort by occurences
+                            .ToList(); // Remove deffered execution as Extractor will be disposed after this method ends.
+
 
                         // Compute top n words.
-                        var topWords = words.Take(CustomSettings.TopNumberOfWords).ToList();
-                        var sum = words.Sum(w => w.Occurrences);
+                        var topWords = _lastGroupOfWords.Take(CustomSettings.TopNumberOfWords);
+                        
 
-                        DoLocal(() =>
-                        {
-                            // Clear previous list
-                            topWordsBindingSource.Clear();
-                            topWords.ForEach(w => topWordsBindingSource.Add(w));
 
-                            // Bind new words
-                            dgv_TopWords.DataSource = topWordsBindingSource;
-                            ClearImageList();
-                        });
 
+                        SetWordList(topWords);
+                        DoLocal(() => ClearImageList());
                         var images = document.GetImages();
                         foreach (var image in images)
                         {
@@ -83,7 +78,7 @@ namespace XCentium.CodeExample.UI
                             if (imageObj == null)
                                 continue;
                             DoLocal(() => imagesFromCurrentSite.Images.Add(image.Item1, imageObj));
-                            DoLocal(() => lv_images.Items.Add(new ListViewItem(image.Item2, image.Item1)));
+                            DoLocal(() => lv_images.Items.Add(new ListViewItem(image.Item2, image.Item1) {ToolTipText="Click the image to display full size." }));
                         }
                     }
                 });
@@ -99,6 +94,28 @@ namespace XCentium.CodeExample.UI
                 task.Wait();
             });
             
+        }
+
+        private void SetWordList(IEnumerable<WordGroup> words)
+        {
+
+
+            DoLocal(() =>
+                    {
+                        // Clear previous list
+                        topWordsBindingSource.Clear();
+                        if (words == null)
+                            return;
+                        foreach (var word in words)
+                            topWordsBindingSource.Add(word);
+
+                        // Bind new words
+                        dgv_TopWords.DataSource = topWordsBindingSource;
+
+                        // Set Total Word count
+                        ll_wordCount.Text = $"{_lastGroupOfWords.Sum(w => w.Occurrences)} words";
+
+                    });
         }
 
         /// <summary>
@@ -211,5 +228,9 @@ namespace XCentium.CodeExample.UI
                 Invoke(new LocalizedUIOperation((result.AsyncState as WaitForm).Close));
         }
 
+        private void ll_wordCount_Click(object sender, EventArgs e)
+        {
+            SetWordList(dgv_TopWords.Rows.Count < _lastGroupOfWords?.Count?_lastGroupOfWords:_lastGroupOfWords?.Take(CustomSettings.TopNumberOfWords));
+        }
     }
 }
