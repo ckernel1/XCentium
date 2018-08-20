@@ -60,7 +60,7 @@ namespace XCentium.CodeExample.UI
             this.cb_grouping.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.cb_grouping.Location = new System.Drawing.Point(3, 15);
             this.cb_grouping.Name = "cb_grouping";
-            this.cb_grouping.Size = new System.Drawing.Size(194, 17);
+            this.cb_grouping.Size = new System.Drawing.Size(152, 17);
             this.cb_grouping.TabIndex = 0;
             this.cb_grouping.Text = "Use Stem Word Grouping";
             this.cb_grouping.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@ namespace XCentium.CodeExample.UI
             this.txt_URL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_URL.Location = new System.Drawing.Point(3, 16);
             this.txt_URL.Name = "txt_URL";
-            this.txt_URL.Size = new System.Drawing.Size(516, 20);
+            this.txt_URL.Size = new System.Drawing.Size(558, 20);
             this.txt_URL.TabIndex = 1;
             this.txt_URL.Text = "http://google.com";
             // 
@@ -81,7 +81,7 @@ namespace XCentium.CodeExample.UI
             this.btn_Go.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btn_Go.Location = new System.Drawing.Point(3, 45);
             this.btn_Go.Name = "btn_Go";
-            this.btn_Go.Size = new System.Drawing.Size(516, 23);
+            this.btn_Go.Size = new System.Drawing.Size(558, 23);
             this.btn_Go.TabIndex = 2;
             this.btn_Go.Text = "Go";
             this.btn_Go.UseVisualStyleBackColor = true;
@@ -94,7 +94,7 @@ namespace XCentium.CodeExample.UI
             this.dgv_TopWords.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_TopWords.Location = new System.Drawing.Point(0, 0);
             this.dgv_TopWords.Name = "dgv_TopWords";
-            this.dgv_TopWords.Size = new System.Drawing.Size(722, 544);
+            this.dgv_TopWords.Size = new System.Drawing.Size(722, 568);
             this.dgv_TopWords.TabIndex = 3;
             // 
             // lv_images
@@ -138,7 +138,7 @@ namespace XCentium.CodeExample.UI
             this.cb_ignoreCommonwords.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.cb_ignoreCommonwords.Location = new System.Drawing.Point(3, 32);
             this.cb_ignoreCommonwords.Name = "cb_ignoreCommonwords";
-            this.cb_ignoreCommonwords.Size = new System.Drawing.Size(194, 17);
+            this.cb_ignoreCommonwords.Size = new System.Drawing.Size(152, 17);
             this.cb_ignoreCommonwords.TabIndex = 3;
             this.cb_ignoreCommonwords.Text = "Ignore Common Words";
             this.cb_ignoreCommonwords.UseVisualStyleBackColor = true;
@@ -148,9 +148,9 @@ namespace XCentium.CodeExample.UI
             this.groupBox1.Controls.Add(this.cb_grouping);
             this.groupBox1.Controls.Add(this.cb_ignoreCommonwords);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBox1.Location = new System.Drawing.Point(519, 16);
+            this.groupBox1.Location = new System.Drawing.Point(561, 16);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 52);
+            this.groupBox1.Size = new System.Drawing.Size(158, 52);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
@@ -160,9 +160,9 @@ namespace XCentium.CodeExample.UI
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.ll_wordCount);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox2.Location = new System.Drawing.Point(0, 544);
+            this.groupBox2.Location = new System.Drawing.Point(0, 568);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(722, 77);
+            this.groupBox2.Size = new System.Drawing.Size(722, 53);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Web Page Info";

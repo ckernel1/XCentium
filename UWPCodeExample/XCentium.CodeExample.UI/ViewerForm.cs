@@ -23,6 +23,8 @@ namespace XCentium.CodeExample.UI
         private void btn_close_Click(object sender, EventArgs e)
         {
             this.Hide();
+            pb_image.Image.Dispose();
+            
         }
     }
 }

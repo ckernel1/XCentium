@@ -173,14 +173,22 @@ namespace XCentium.CodeExample.UI
 
             using (var wc = new WebClient())
             {
-                using (var imgStream = new MemoryStream(wc.DownloadData(webPath)))
+               
                 {
+                    var imgStream = new MemoryStream(wc.DownloadData(webPath));
                     if (imgStream.Length <= 1)
-                        return null; // invalid image
-                    using (Bitmap bitmap = new Bitmap(imgStream))
+                        return Image.FromFile(@".\invalidImageFormat.png"); // invalid image
+                    try
                     {
-                        return new Bitmap(bitmap);
+                        
+                        return Image.FromStream(imgStream);
                     }
+                    catch
+                    {
+                        // Invalid Image Format
+                        return Image.FromFile(@".\invalidImageFormat.png");
+                    }
+                    
                 }
             }
         }
@@ -236,6 +244,7 @@ namespace XCentium.CodeExample.UI
 
         private void ll_wordCount_Click(object sender, EventArgs e)
         {
+            // Toggle between full word list and top n word list.
             SetWordList(dgv_TopWords.Rows.Count < _lastGroupOfWords?.Count?_lastGroupOfWords:_lastGroupOfWords?.Take(CustomSettings.TopNumberOfWords));
         }
     }
