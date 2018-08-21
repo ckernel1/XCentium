@@ -45,6 +45,7 @@
             // 
             // btn_close
             // 
+            this.btn_close.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_close.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btn_close.Location = new System.Drawing.Point(0, 427);
             this.btn_close.Name = "btn_close";
@@ -56,8 +57,10 @@
             // 
             // ViewerForm
             // 
+            this.AcceptButton = this.btn_close;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btn_close;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.ControlBox = false;
             this.Controls.Add(this.btn_close);

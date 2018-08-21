@@ -19,7 +19,7 @@ namespace XCentium.CodeExample.Tests
     /// <summary>
     /// Integration test for correctness. Ideally I would write a whole suite of automated test cases with static files, 
     /// but due to time constraints I have only included one static and the others are pulled from the live sites which
-    /// means they could change and cause the test to fail. 
+    /// means they could change and cause the test to fail. For that reason I used inrange to give some degree of flexibility. 
     /// </summary>
     public class ExtractorIntegrationTest
     {
@@ -57,25 +57,25 @@ namespace XCentium.CodeExample.Tests
             })
             {
 
-                Assert.Equal(2, x.GetImages().Count());
-                Assert.Equal(39, x.GetWords().Count());
+                Assert.InRange( x.GetImages().Count(),1,4);
+                Assert.InRange( x.GetWords().Count(),37,42);
 
             }
         }
 
         [Fact]
-        public void FacebookTest()
+        public void StateFarmTest()
         {
             using (var x = new UriExtractor(new ProgressBarStatus(), new FirefoxDriver(workingDirectory))
             {
-                URI = new Uri($"http://facebook.com"),
+                URI = new Uri($"http://statefarm.com"),
                 ExcludeSymbolsRegEx = excludeSymbolsRegEx,
                 SearchTags = searchTags
             })
             {
 
-                Assert.Equal(6, x.GetImages().Count());
-                Assert.Equal(333, x.GetWords().Count());
+                Assert.InRange(x.GetImages().Count(),10,18 );
+                Assert.InRange( x.GetWords().Count(),1010,1030);
 
             }
         }
@@ -92,7 +92,7 @@ namespace XCentium.CodeExample.Tests
             {
 
                 Assert.Empty( x.GetImages());
-                Assert.Equal(86, x.GetWords().Count());
+                Assert.InRange( x.GetWords().Count(),82,90);
 
             }
         }
