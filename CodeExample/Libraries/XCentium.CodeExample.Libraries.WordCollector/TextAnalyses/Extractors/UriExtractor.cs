@@ -1,6 +1,6 @@
 ﻿
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,16 +36,18 @@ namespace XCentium.CodeExample.Libraries.WordCollector.Extractors
             SearchTags.ForEach(t =>
             {
                 var elements = _webDriver.FindElements(By.TagName(t));
-
+                
                 foreach (IWebElement element in elements)
                 {
+                    
                     // Going to look at content attributes, value attributes and inner text for words. 
                     var analyzeThis = string.Concat(element.GetAttribute("content")," " , element.GetAttribute("value")," " , element.Text);
-                    words.AddRange(Regex
-                    .Replace(analyzeThis, ExcludeSymbolsRegEx, " ")?
-                    .ToLower()
-                    .Split(new char[] { ' ' }, options: StringSplitOptions.RemoveEmptyEntries));
+                    AddWords(analyzeThis,words);
                 }
+                // Special case for title tag
+                if (string.Equals("title", t, StringComparison.OrdinalIgnoreCase))
+                    AddWords(_webDriver.Title,words);
+
             });
             
             ProgressIndicator.Reset();
@@ -57,6 +59,14 @@ namespace XCentium.CodeExample.Libraries.WordCollector.Extractors
             }
 
 
+        }
+
+        private void AddWords(string words,List<string> wordList)
+        {
+            wordList.AddRange(Regex
+                   .Replace(words, ExcludeSymbolsRegEx, " ")?
+                   .ToLower()
+                   .Split(new char[] { ' ' }, options: StringSplitOptions.RemoveEmptyEntries));
         }
 
         public IEnumerable<Tuple<string, string>> GetImages()

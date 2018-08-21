@@ -18,8 +18,7 @@ namespace XCentium.CodeExample.Tests
 {
     /// <summary>
     /// Integration test for correctness. Ideally I would write a whole suite of automated test cases with static files, 
-    /// but due to time constraints I have only included one static and the others are pulled from the live sites which
-    /// means they could change and cause the test to fail. For that reason I used inrange to give some degree of flexibility. 
+    /// but due to time constraints I have only included 3 static.
     /// </summary>
     public class ExtractorIntegrationTest
     {
@@ -47,52 +46,53 @@ namespace XCentium.CodeExample.Tests
         }
 
         [Fact]
-        public void GoogleTest()
+        public void CustomStaticNoImageTest()
         {
             using (var x = new UriExtractor(new ProgressBarStatus(), new FirefoxDriver(workingDirectory))
             {
-                URI = new Uri($"http://google.com"),
-                ExcludeSymbolsRegEx = excludeSymbolsRegEx,
-                SearchTags = searchTags
-            })
-            {
-
-                Assert.InRange( x.GetImages().Count(),1,4);
-                Assert.InRange( x.GetWords().Count(),37,42);
-
-            }
-        }
-
-        [Fact]
-        public void StateFarmTest()
-        {
-            using (var x = new UriExtractor(new ProgressBarStatus(), new FirefoxDriver(workingDirectory))
-            {
-                URI = new Uri($"http://statefarm.com"),
-                ExcludeSymbolsRegEx = excludeSymbolsRegEx,
-                SearchTags = searchTags
-            })
-            {
-
-                Assert.InRange(x.GetImages().Count(),10,18 );
-                Assert.InRange( x.GetWords().Count(),1010,1030);
-
-            }
-        }
-
-        [Fact]
-        public void TwitterTest()
-        {
-            using (var x = new UriExtractor(new ProgressBarStatus(), new FirefoxDriver(workingDirectory))
-            {
-                URI = new Uri($"http://twitter.com"),
+                URI = new Uri($"file://{workingDirectory}//StaticPages/test1.html"),
                 ExcludeSymbolsRegEx = excludeSymbolsRegEx,
                 SearchTags = searchTags
             })
             {
 
                 Assert.Empty( x.GetImages());
-                Assert.InRange( x.GetWords().Count(),82,90);
+                Assert.Equal(17, x.GetWords().Count());
+
+            }
+        }
+
+
+        [Fact]
+        public void CustomStaticImageTest()
+        {
+            using (var x = new UriExtractor(new ProgressBarStatus(), new FirefoxDriver(workingDirectory))
+            {
+                URI = new Uri($"file://{workingDirectory}//StaticPages/test2.html"),
+                ExcludeSymbolsRegEx = excludeSymbolsRegEx,
+                SearchTags = searchTags
+            })
+            {
+
+                Assert.Equal(2,x.GetImages().Count());
+                Assert.Equal(17, x.GetWords().Count());
+
+            }
+        }
+
+        [Fact]
+        public void CustomStaticImageTitleTest()
+        {
+            using (var x = new UriExtractor(new ProgressBarStatus(), new FirefoxDriver(workingDirectory))
+            {
+                URI = new Uri($"file://{workingDirectory}//StaticPages/test3.html"),
+                ExcludeSymbolsRegEx = excludeSymbolsRegEx,
+                SearchTags = searchTags
+            })
+            {
+
+                Assert.Equal(2, x.GetImages().Count());
+                Assert.Equal(22, x.GetWords().Count());
 
             }
         }

@@ -164,7 +164,7 @@ namespace XCentium.CodeExample.UI
         /// <returns></returns>
         private string Normalize(string text)
         {
-            if(!Regex.IsMatch(text, "^(http:|https:|HTTP:|HTTPS:|Http:|Https:).*"))
+            if(!Regex.IsMatch(text, "^(http:|https:|HTTP:|HTTPS:|Http:|Https:|FILE:|File:|file:).*"))
                 return $"http://{text}";
             return text;
         }
@@ -186,15 +186,30 @@ namespace XCentium.CodeExample.UI
                     var imgStream = new MemoryStream(wc.DownloadData(webPath));
                     if (imgStream.Length <= 1)
                         return Image.FromFile(@".\invalidImageFormat.png"); // invalid image
+
+                    // This could be refactored to find the media type first then find the proper way to convert it to a bitmap.
                     try
                     {
-                        
+                        // Regular images will pass through here.
                         return Image.FromStream(imgStream);
                     }
                     catch
                     {
-                        // Invalid Image Format
-                        return Image.FromFile(@".\invalidImageFormat.png");
+                        // Reset stream and try again as a vector image. 
+                        imgStream.Position = 0;
+                        try
+                        {
+                            // Vector images will pass through here. 
+                            var doc = Svg.SvgDocument.Open<Svg.SvgDocument>(imgStream);
+                            return doc.Draw();
+                        }
+                        catch
+                        {
+                            // If all else fails show invalid format image.
+                    
+                            return Image.FromFile(@".\invalidImageFormat.png");
+                        }
+               
                     }
                     
                 }
