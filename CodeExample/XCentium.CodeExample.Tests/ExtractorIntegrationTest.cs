@@ -40,7 +40,7 @@ namespace XCentium.CodeExample.Tests
             {
 
                 Assert.Equal(3, x.GetImages().Count());
-                Assert.Equal(40, x.GetWords().Count());
+                Assert.Equal(41, x.GetWords().Count());
                 
             }
         }
