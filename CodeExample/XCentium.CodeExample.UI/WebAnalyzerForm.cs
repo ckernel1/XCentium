@@ -183,22 +183,23 @@ namespace XCentium.CodeExample.UI
             {
                
                 {
-                    var imgStream = new MemoryStream(wc.DownloadData(webPath));
-                    if (imgStream.Length <= 1)
-                        return Image.FromFile(@".\invalidImageFormat.png"); // invalid image
 
+                    MemoryStream imgStream = null;
                     // This could be refactored to find the media type first then find the proper way to convert it to a bitmap.
                     try
                     {
+                        imgStream = new MemoryStream(wc.DownloadData(webPath));
+                        if (imgStream.Length <= 1)
+                            return Image.FromFile(@".\invalidImageFormat.png"); // invalid image
                         // Regular images will pass through here.
                         return Image.FromStream(imgStream);
                     }
                     catch
                     {
-                        // Reset stream and try again as a vector image. 
-                        imgStream.Position = 0;
+                        
                         try
-                        {
+                        {   // Reset stream and try again as a vector image. 
+                            imgStream.Position = 0;
                             // Vector images will pass through here. 
                             var doc = Svg.SvgDocument.Open<Svg.SvgDocument>(imgStream);
                             return doc.Draw();
@@ -206,10 +207,10 @@ namespace XCentium.CodeExample.UI
                         catch
                         {
                             // If all else fails show invalid format image.
-                    
+
                             return Image.FromFile(@".\invalidImageFormat.png");
                         }
-               
+
                     }
                     
                 }
